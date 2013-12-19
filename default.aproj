@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="gb2312"?>
-<project ver="0.60" name="必应壁纸" libEmbed="true" icon="mix\bing.ico" CompanyName="blog.jtwo.me" FileDescription="" LegalCopyright="Coding By iCyOMiK" ProductName="必应壁纸" InternalName="" FileVersion="13.02.22.1610" ProductVersion="0.0.1.001" publishDir="/Publish/" ui="win" output="必应壁纸.exe">
+<project ver="0.60" name="必应壁纸" libEmbed="true" icon="mix\bing.ico" CompanyName="" FileDescription="CODE BY JTWO" LegalCopyright="" ProductName="" InternalName="" FileVersion="0.0.1.6" ProductVersion="0.0.1.6" publishDir="/Publish/" ui="win" output="必应壁纸.exe">
 	<file name="main.aau" path="main.aau"/>
 	<folder name="资源文件" path="res" embed="true"/>
 </project>
