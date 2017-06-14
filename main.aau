@@ -1,4 +1,4 @@
-import win.ui;
+ï»¿import win.ui;
 /*DSG{{*/
 mainForm = ..win.form( parent=...;right=1;bottom=1 )
 mainForm.add(  )
@@ -10,30 +10,30 @@ var tray = win.util.tray(mainForm)
 import inet.http;
 var http = inet.http()
 
-//½¨Á¢±£´æBING±³¾°Í¼µÄÄ¿Â¼
+//å»ºç«‹ä¿å­˜BINGèƒŒæ™¯å›¾çš„ç›®å½•
 var img_save_dir = string.replace(io._exepath,"\.\w*$","") ++ "\"
 import fsys;
 if not(io.exist(img_save_dir,6)){
 	fsys.createDir(img_save_dir)
 }
 
-//ÓÃÓÚÆ¥ÅäÔ´Âë±³¾°Í¼Á´½ÓµÄÕıÔò
+//ç”¨äºåŒ¹é…æºç èƒŒæ™¯å›¾é“¾æ¥çš„æ­£åˆ™
 var image_regex = {}
 table.push(image_regex,"g_img\=\{url\:\'(.*?)\'.*\}")
 table.push(image_regex,"background-image\:url\((.*?)\)")
 
-//ÏÂÔØBINGÖ÷Ò³Ô´Âë
+//ä¸‹è½½BINGä¸»é¡µæºç 
 var bing = ""
 for(i=1;10;1){
 	bing = http.get("http://cn.bing.com")
 	if(#bing > 0){
 		break ;
 	}
-	tray.pop("ÎŞ·¨ÏÂÔØBINGÔ´Âë£¬µÈ´ı10ÃëºóÖØÊÔ","")//ÌáÊ¾XXÃëºóÖØÊÔ
+	tray.pop("æ— æ³•ä¸‹è½½BINGæºç ï¼Œç­‰å¾…10ç§’åé‡è¯•","")//æç¤ºXXç§’åé‡è¯•
 	sleep(10*1000)
 }
 
-//Æ¥ÅäÔ´ÂëÖĞµÄ±³¾°Í¼Á´½Ó
+//åŒ¹é…æºç ä¸­çš„èƒŒæ™¯å›¾é“¾æ¥
 var bing_img = ""
 for(pos,img_regex in image_regex){
 	bing_img = string.match(bing,img_regex)
@@ -42,41 +42,41 @@ for(pos,img_regex in image_regex){
 	}
 }
 if(bing_img == null){
-	tray.pop("ÎŞ·¨Æ¥ÅäBING±³¾°Í¼Á´½Ó£¬ÍË³ö³ÌĞò","")//ÌáÊ¾Ã»ÓĞÕÒµ½Æ¥Åä
-	sleep(3*1000); tray.delete(); win.quitMessage() //ÍË³ö³ÌĞò	
+	tray.pop("æ— æ³•åŒ¹é…BINGèƒŒæ™¯å›¾é“¾æ¥ï¼Œé€€å‡ºç¨‹åº","")//æç¤ºæ²¡æœ‰æ‰¾åˆ°åŒ¹é…
+	sleep(3*1000); tray.delete(); win.quitMessage() //é€€å‡ºç¨‹åº	
 }
-var img_save_path = img_save_dir ++ string.match(bing_img,".*/(.*)$") //±£´æ±³¾°Í¼µÄÂ·¾¶
+var img_save_path = img_save_dir ++ string.match(bing_img,".*/(.*)$") //ä¿å­˜èƒŒæ™¯å›¾çš„è·¯å¾„
 
-//ÏÂÔØ±³¾°Í¼µ½Ó²ÅÌÉÏ
+//ä¸‹è½½èƒŒæ™¯å›¾åˆ°ç¡¬ç›˜ä¸Š
 import inet.downBox
-var downBox = inet.downBox(mainForm,"ÕıÔÚÏÂÔØ±ÚÖ½")
+var downBox = inet.downBox(mainForm,"æ­£åœ¨ä¸‹è½½å£çº¸")
 downBox.endProc = function(ret,fileSize,err){ 
-	if(ret) owner.endModal(); //ÏÂÔØÍê³Éºó×Ô¶¯¹Ø±Õ¶Ô»°¿ò
+	if(ret) owner.endModal(); //ä¸‹è½½å®Œæˆåè‡ªåŠ¨å…³é—­å¯¹è¯æ¡†
 }
-downBox.download( bing_img, img_save_path ) //¿ªÊ¼ÏÂÔØ
-if( downBox.complete ){ //ÏÂÔØÍê³ÉºóµÄ´¦Àí
-	fsys.delete(img_save_path ++ ".dowload") //AAUTO×Ô¶¯Éú³É£¬¿ÉÉ¾
+downBox.download( bing_img, img_save_path ) //å¼€å§‹ä¸‹è½½
+if( downBox.complete ){ //ä¸‹è½½å®Œæˆåçš„å¤„ç†
+	fsys.delete(img_save_path ++ ".dowload") //AAUTOè‡ªåŠ¨ç”Ÿæˆï¼Œå¯åˆ 
 }
 
-//ÊÇ·ñÉèÖÃÎª±ÚÖ½£¬³¬Ê±Ôò×Ô¶¯È·ÈÏ
-var active_wallpaper = 6 //²»¾­¹ıÈ·ÈÏ£¬Ö±½ÓÉèÖÃ±ÚÖ½
-//var active_wallpaper = win.msgboxTimeout("ÊÇ·ñÉèÖÃµ±Ç°ÏÂÔØµÄ±³¾°Í¼Îª±ÚÖ½£¿","³¬Ê±4Ãëºó½«×Ô¶¯È·ÈÏ",4*1000,4)
-if (active_wallpaper == 6 || active_wallpaper == 32000){ //Îª6ÔòÑ¡ÔñÁË¡ºÊÇ¡»£¬Îª32000ÔòÊÇ³¬Ê±Ã»ÓĞÑ¡Ôñ
+//æ˜¯å¦è®¾ç½®ä¸ºå£çº¸ï¼Œè¶…æ—¶åˆ™è‡ªåŠ¨ç¡®è®¤
+var active_wallpaper = 6 //ä¸ç»è¿‡ç¡®è®¤ï¼Œç›´æ¥è®¾ç½®å£çº¸
+//var active_wallpaper = win.msgboxTimeout("æ˜¯å¦è®¾ç½®å½“å‰ä¸‹è½½çš„èƒŒæ™¯å›¾ä¸ºå£çº¸ï¼Ÿ","è¶…æ—¶4ç§’åå°†è‡ªåŠ¨ç¡®è®¤",4*1000,4)
+if (active_wallpaper == 6 || active_wallpaper == 32000){ //ä¸º6åˆ™é€‰æ‹©äº†ã€æ˜¯ã€ï¼Œä¸º32000åˆ™æ˜¯è¶…æ—¶æ²¡æœ‰é€‰æ‹©
 	import gdip;
 	var wallpaper_path = fsys.getTempDir() ++ "wallpaper.bmp"
-	var img_object = gdip.image(img_save_path) //¼ÓÔØÔ­Í¼Æ¬£¬´´½¨Í¼Æ¬¶ÔÏó
+	var img_object = gdip.image(img_save_path) //åŠ è½½åŸå›¾ç‰‡ï¼Œåˆ›å»ºå›¾ç‰‡å¯¹è±¡
 	img_object.save(wallpaper_path)
-	img_object.dispose() //ÊÍ·ÅÍ¼Æ¬¶ÔÏó
+	img_object.dispose() //é‡Šæ”¾å›¾ç‰‡å¯¹è±¡
 	
-	//ÉèÖÃ±ÚÖ½ÏÔÊ¾·½Ê½(Æ½ÆÌ¡¢¾ÓÖĞ¡¢À­Éì)
+	//è®¾ç½®å£çº¸æ˜¾ç¤ºæ–¹å¼(å¹³é“ºã€å±…ä¸­ã€æ‹‰ä¼¸)
 	import win.reg;
 	regedit = win.reg("HKEY_CURRENT_USER\Control Panel\Desktop")
-	regedit.setSzValue("TileWallpaper","0") //ºÃÏñÊÇÀ­Éì£¬²»È·ÈÏ
+	regedit.setSzValue("TileWallpaper","0") //å¥½åƒæ˜¯æ‹‰ä¼¸ï¼Œä¸ç¡®è®¤
 	regedit.close()
 	
-	//µ÷ÓÃAPIº¯ÊıĞŞ¸Ä±ÚÖ½
+	//è°ƒç”¨APIå‡½æ•°ä¿®æ”¹å£çº¸
 	SystemParametersInfo = ::User32.api("SystemParametersInfoA","int(int uAction,int uParam,string lpvParam,int fuWinIni)")
-	//ÓÃAPIº¯ÊıĞŞ¸Ä±ÚÖ½
+	//ç”¨APIå‡½æ•°ä¿®æ”¹å£çº¸
 	SystemParametersInfo(0x14/*_SPI_SETDESKWALLPAPER*/,0, wallpaper_path, 1 | 2 /*_SPIF_UPDATEINIFILE | _SPIF_UPDATEINIFILE*/);
 }
 
